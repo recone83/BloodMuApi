@@ -20,7 +20,6 @@ namespace BloodMuAPI
         {
             Configuration = configuration;
         }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IBloodMuDbContext, BloodMuDbContext>(config =>
@@ -29,19 +28,25 @@ namespace BloodMuAPI
             }, ServiceLifetime.Singleton);
 
             services.AddSingleton<IAccountService, AccountService>();
+            services.AddSingleton<ISessionManager, SessionManager>();
+
             services.AddScoped<AuthSessionHandler>();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c=>
+            {
+                //c.EnableAnnotations();
+                //c.OperationFilter<CustomHeaderSwaggerAttribute>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -34,5 +34,19 @@ namespace BloodMuAPI.Services
             return x;
         }
 
+        public Account? GetUser(string username, string password)
+        {
+            var account = _db.Accounts
+            .Where(x => x.LoginName == username)
+            .Include(c => c.Characters)
+            .SingleOrDefault();
+
+            if(account is not null && BCrypt.Net.BCrypt.Verify(password, account.PasswordHash))
+            {
+                return account;
+            }
+
+            return null;
+        }
     }
 }

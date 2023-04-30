@@ -1,10 +1,10 @@
 
-using BloodMuAPI.DataProvider;
+using BloodMuAPI.DataModel.Data;
 using BloodMuAPI.Extensions;
 using BloodMuAPI.Services.API;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace BloodMuAPI.Controllers
 {
@@ -13,35 +13,42 @@ namespace BloodMuAPI.Controllers
     public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
-
-        public AuthController(ILogger<AuthController> logger)
+        private readonly IAccountService _db;
+        public AuthController(ILogger<AuthController> logger, IAccountService db)
         {
             _logger = logger;
+            _db = db;
         }
 
         [Route("login")]
-        [HttpGet]
-        public IActionResult Login([FromServices] IAccountService db)
+        [HttpPost]
+        public IActionResult Login([Required]string username, [Required]string password)
         {
-            return Ok(db.GetUsers());
+            var account = _db.GetUser(username, password);
+            if(account is not null)
+            {
+                var sessionId = Guid.NewGuid().ToString();
+                HttpContext.Session.Set<AccountSession>(sessionId, account.GetAccountForSession());
+
+                return Ok(sessionId);
+            }
+            return Ok(null);
         }
 
         [Route("test1")]
         [HttpGet]
         [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Test1()
+        public IActionResult Test1([FromHeader] string sessionId)
         {
-            HttpContext.Session.SetString("test1", "AAAAAA");
-            Console.WriteLine("Test1");
             return Ok("Test1");
         }
 
         [Route("test2")]
         [HttpGet]
-        public IActionResult Test2()
+        [ServiceFilter(typeof(AuthSessionHandler))]
+        public IActionResult Test2([FromHeader] string sessionId)
         {
-            Console.WriteLine("Test2");
-            return Ok(HttpContext.Session.GetString("test1"));
+            return Ok(HttpContext.Session.Get<AccountSession>(sessionId));
         }
     }
 }

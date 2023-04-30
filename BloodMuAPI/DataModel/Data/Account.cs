@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml.Serialization;
 
 namespace BloodMuAPI.DataModel.Data;
@@ -123,4 +124,18 @@ public class Account : Entity
     {
         return LoginName;
     }
+
+    public AccountSession GetAccountForSession()
+    {
+        return new AccountSession()
+        {
+            EMail = this.EMail,
+            LoginName = this.LoginName,
+            RegistrationDate = this.RegistrationDate,
+            State = this.State,
+            TimeZone = this.TimeZone,
+            Characters = this.Characters?.Select(x=>x.Name).ToList() ?? null
+        };
+    }
+
 }
