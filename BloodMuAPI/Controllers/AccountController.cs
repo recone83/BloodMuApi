@@ -19,13 +19,21 @@ namespace BloodMuAPI.Controllers
         [Route("get")]
         [HttpGet]
         [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Test1([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
+        public IActionResult Get([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
         {
             var user = sessionManager.GetSessionUser();
-            Console.WriteLine(user.LoginName);
             var account = _accountService.GetUser(user.LoginName);
 
             return Ok(account);
+        }
+
+        [Route("add")]
+        [HttpPost]
+        [ServiceFilter(typeof(AuthSessionHandler))]
+        public IActionResult Add([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
+        {
+
+            return Ok();
         }
     }
 }

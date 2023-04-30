@@ -33,13 +33,5 @@ namespace BloodMuAPI.Controllers
             }
             return Ok(null);
         }
-
-        [Route("test2")]
-        [HttpGet]
-        [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Test2([FromHeader] string sessionId)
-        {
-            return Ok(HttpContext.Session.Get<AccountSession>(sessionId));
-        }
     }
 }
