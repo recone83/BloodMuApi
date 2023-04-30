@@ -2,6 +2,9 @@
 using Npgsql;
 using System.Net;
 using BloodMuAPI;
+using System;
+using BloodMuAPI.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloodMuAPI
 {
@@ -16,12 +19,13 @@ namespace BloodMuAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            /*
             services.AddScoped<NpgsqlConnection>(_ =>
             {
                 var connection = new NpgsqlConnection(Configuration.GetConnectionString("MyConnection"));
                 connection.Open();
                 return connection;
-            });
+            });*/
 
             /*
             services.AddHsts(options =>
@@ -38,9 +42,13 @@ namespace BloodMuAPI
                 options.HttpsPort = 5001;
             });
             */
+            services.AddDbContext<BloodMuDbContext>(config =>
+            {
+                config.UseNpgsql(Configuration.GetConnectionString("BloodMuDbConnaction"));
+            });
 
             services.AddControllers();
-        //    services.AddEndpointsApiExplorer();
+            services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
         }
 

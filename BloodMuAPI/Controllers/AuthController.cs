@@ -1,10 +1,14 @@
+using BloodMuAPI.Data;
+using BloodMuAPI.DataModel.Entities;
+using BloodMuAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloodMuAPI.Controllers
 {
     [ApiController]
     [Route("v1/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
 
@@ -15,9 +19,22 @@ namespace BloodMuAPI.Controllers
 
         [Route("login")]
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login([FromServices] BloodMuDbContext db)
         {
-            return Ok("login");
+            var x = db.Accounts
+                .Include(c => c.Characters)
+                    .ThenInclude(c => c.Inventory)
+                        .ThenInclude(c => c.Items)
+                            .ThenInclude(c => c.Definition)
+                .Include(c => c.Characters)
+                    .ThenInclude(c => c.Attributes)
+                        .ThenInclude(c => c.Definition)
+                .Include(c => c.Characters)
+                    .ThenInclude(c => c.CharacterClass)
+
+                .First();
+
+            return Ok(x);
         }
 
         [Route("logout")]
