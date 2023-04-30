@@ -4,6 +4,11 @@ using BloodMuAPI.DataProvider;
 using BloodMuAPI.Services.API;
 using BloodMuAPI.Services;
 using BloodMuAPI.DataProvider.API;
+using Microsoft.AspNetCore.Authorization;
+using BloodMuAPI.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.VisualBasic;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BloodMuAPI
 {
@@ -24,6 +29,15 @@ namespace BloodMuAPI
             }, ServiceLifetime.Singleton);
 
             services.AddSingleton<IAccountService, AccountService>();
+            services.AddScoped<AuthSessionHandler>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -38,9 +52,13 @@ namespace BloodMuAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseRouting();
-            app.UseAuthentication(); // Enables authentication for the request processing pipeline
-            app.UseAuthorization(); // Enables authorization for the request processing pipeline
+            app.UseSession();
+
+            //app.UseAuthentication();
+            //app.UseAuthorization(); 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

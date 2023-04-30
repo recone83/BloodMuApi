@@ -2,6 +2,7 @@
 using BloodMuAPI.DataProvider;
 using BloodMuAPI.Extensions;
 using BloodMuAPI.Services.API;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,11 +26,22 @@ namespace BloodMuAPI.Controllers
             return Ok(db.GetUsers());
         }
 
-        [Route("logout")]
+        [Route("test1")]
         [HttpGet]
-        public IActionResult Logout()
+        [ServiceFilter(typeof(AuthSessionHandler))]
+        public IActionResult Test1()
         {
-            return Ok("logout");
+            HttpContext.Session.SetString("test1", "AAAAAA");
+            Console.WriteLine("Test1");
+            return Ok("Test1");
+        }
+
+        [Route("test2")]
+        [HttpGet]
+        public IActionResult Test2()
+        {
+            Console.WriteLine("Test2");
+            return Ok(HttpContext.Session.GetString("test1"));
         }
     }
 }
