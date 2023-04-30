@@ -6,5 +6,6 @@ namespace BloodMuAPI.Services.API
     {
         public Account GetUsers();
         public Account? GetUser(string username, string password);
+        public Account? GetUser(string username);
     }
 }

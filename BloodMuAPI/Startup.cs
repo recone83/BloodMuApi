@@ -4,18 +4,13 @@ using BloodMuAPI.DataProvider;
 using BloodMuAPI.Services.API;
 using BloodMuAPI.Services;
 using BloodMuAPI.DataProvider.API;
-using Microsoft.AspNetCore.Authorization;
 using BloodMuAPI.Extensions;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.VisualBasic;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BloodMuAPI
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -60,9 +55,6 @@ namespace BloodMuAPI
 
             app.UseRouting();
             app.UseSession();
-
-            //app.UseAuthentication();
-            //app.UseAuthorization(); 
 
             app.UseEndpoints(endpoints =>
             {

@@ -33,6 +33,7 @@ namespace BloodMuAPI.Extensions
                var account = context.HttpContext.Session.Get<AccountSession>(sessionId.ToString());
                 if (account is not null)
                 {
+                    _sessionManager.SetSessionUser(account);
                     _logger.LogInformation($"User got session: " + sessionId.ToString());
                     return;
                 }

@@ -2,7 +2,6 @@
 using BloodMuAPI.DataModel.Data;
 using BloodMuAPI.Extensions;
 using BloodMuAPI.Services.API;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,14 +32,6 @@ namespace BloodMuAPI.Controllers
                 return Ok(sessionId);
             }
             return Ok(null);
-        }
-
-        [Route("test1")]
-        [HttpGet]
-        [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Test1([FromHeader] string sessionId)
-        {
-            return Ok("Test1");
         }
 
         [Route("test2")]
