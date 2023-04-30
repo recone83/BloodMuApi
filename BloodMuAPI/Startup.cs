@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Npgsql;
-using System.Net;
-using BloodMuAPI;
-using System;
-using BloodMuAPI.Data;
+﻿
 using Microsoft.EntityFrameworkCore;
+using BloodMuAPI.DataProvider;
+using BloodMuAPI.Services.API;
+using BloodMuAPI.Services;
+using BloodMuAPI.DataProvider.API;
 
 namespace BloodMuAPI
 {
@@ -19,33 +18,12 @@ namespace BloodMuAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            /*
-            services.AddScoped<NpgsqlConnection>(_ =>
-            {
-                var connection = new NpgsqlConnection(Configuration.GetConnectionString("MyConnection"));
-                connection.Open();
-                return connection;
-            });*/
-
-            /*
-            services.AddHsts(options =>
-             {
-                 options.Preload = true;
-                 options.IncludeSubDomains = true;
-                 options.MaxAge = TimeSpan.FromDays(60);
-                 options.ExcludedHosts.Add("example.com");
-                 options.ExcludedHosts.Add("www.example.com");
-             });
-            services.AddHttpsRedirection(options =>
-            {
-                options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-                options.HttpsPort = 5001;
-            });
-            */
-            services.AddDbContext<BloodMuDbContext>(config =>
+            services.AddDbContext<IBloodMuDbContext, BloodMuDbContext>(config =>
             {
                 config.UseNpgsql(Configuration.GetConnectionString("BloodMuDbConnaction"));
-            });
+            }, ServiceLifetime.Singleton);
+
+            services.AddSingleton<IAccountService, AccountService>();
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();

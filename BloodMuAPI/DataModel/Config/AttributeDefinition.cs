@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BloodMuAPI.DataModel.AttributeSystem;
+namespace BloodMuAPI.DataModel.Config;
 
 /// <summary>
 /// Defines and Identifies a Attribute.

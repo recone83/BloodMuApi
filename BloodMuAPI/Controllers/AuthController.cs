@@ -1,6 +1,7 @@
-using BloodMuAPI.Data;
-using BloodMuAPI.DataModel.Entities;
+
+using BloodMuAPI.DataProvider;
 using BloodMuAPI.Extensions;
+using BloodMuAPI.Services.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,22 +20,9 @@ namespace BloodMuAPI.Controllers
 
         [Route("login")]
         [HttpGet]
-        public IActionResult Login([FromServices] BloodMuDbContext db)
+        public IActionResult Login([FromServices] IAccountService db)
         {
-            var x = db.Accounts
-                .Include(c => c.Characters)
-                    .ThenInclude(c => c.Inventory)
-                        .ThenInclude(c => c.Items)
-                            .ThenInclude(c => c.Definition)
-                .Include(c => c.Characters)
-                    .ThenInclude(c => c.Attributes)
-                        .ThenInclude(c => c.Definition)
-                .Include(c => c.Characters)
-                    .ThenInclude(c => c.CharacterClass)
-
-                .First();
-
-            return Ok(x);
+            return Ok(db.GetUsers());
         }
 
         [Route("logout")]

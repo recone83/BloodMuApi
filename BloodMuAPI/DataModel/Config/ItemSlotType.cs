@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace BloodMuAPI.DataModel.Configuration.Items;
+namespace BloodMuAPI.DataModel.Config;
 
 /// <summary>
 /// The item slot type. Each of this may have one or more actual item slots.

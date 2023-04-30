@@ -1,10 +1,10 @@
-﻿namespace BloodMuAPI.Data
+﻿namespace BloodMuAPI.DataProvider
 {
-    using BloodMuAPI.DataModel.Entities;
+    using BloodMuAPI.DataModel.Data;
+    using BloodMuAPI.DataProvider.API;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
 
-    public class BloodMuDbContext : DbContext
+    public class BloodMuDbContext : DbContext, IBloodMuDbContext
     {
         public BloodMuDbContext(DbContextOptions<BloodMuDbContext> options) : base(options)
         {

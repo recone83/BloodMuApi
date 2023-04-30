@@ -2,13 +2,11 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace BloodMuAPI.DataModel.Entities;
+namespace BloodMuAPI.DataModel.Data;
 
 using BloodMuAPI.DataModel;
-using BloodMuAPI.DataModel.Configuration.Items;
-using System.ComponentModel.DataAnnotations;
+using BloodMuAPI.DataModel.Config;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 /// <summary>
 /// The item.
@@ -22,7 +20,7 @@ public class Item : Entity
     public byte ItemSlot { get; set; }
 
     [ForeignKey("DefinitionId")]
-    public  ItemDefinition? Definition { get; set; }
+    public ItemDefinition? Definition { get; set; }
 
     /// <summary>
     /// Gets or sets the currently remaining durability.
@@ -43,12 +41,12 @@ public class Item : Entity
     /// Gets or sets the item options.
     /// </summary>
     //[MemberOfAggregate]
-  //  public virtual ICollection<ItemOptionLink> ItemOptions { get; protected set; } = null!;
+    //  public virtual ICollection<ItemOptionLink> ItemOptions { get; protected set; } = null!;
 
     /// <summary>
     /// Gets or sets the applied item set groups (Ancient Set).
     /// </summary>
-  //  public virtual ICollection<ItemOfItemSet> ItemSetGroups { get; protected set; } = null!;
+    //  public virtual ICollection<ItemOfItemSet> ItemSetGroups { get; protected set; } = null!;
 
     /// <summary>
     /// Gets or sets the socket count. This limits the amount of socket options in the <see cref="ItemOptions"/>.

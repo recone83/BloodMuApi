@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BloodMuAPI.DataModel.Configuration.Items;
+namespace BloodMuAPI.DataModel.Config;
 
 
 /// <summary>

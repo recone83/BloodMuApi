@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace BloodMuAPI.DataModel.Entities;
+namespace BloodMuAPI.DataModel.Data;
 
 using BloodMuAPI.DataModel;
-using BloodMuAPI.DataModel.AttributeSystem;
-using BloodMuAPI.DataModel.Configuration;
+using BloodMuAPI.DataModel.Config;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -102,7 +101,7 @@ public enum CharacterPose : byte
 /// The character of a player.
 /// </summary>
 [Table("Character", Schema = "data")]
-public class Character : Entity 
+public class Character : Entity
 
 {
     /// <summary>
