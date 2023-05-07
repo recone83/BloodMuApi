@@ -60,6 +60,7 @@ namespace BloodMuAPI.Services
                     X = x.PositionX,
                     Y = x.PositionY
                 })
+            .Where(x => x.Resets > 0)
             .OrderByDescending(x => x.Resets)
             .Take(list)
             .ToList();
