@@ -1,4 +1,6 @@
-﻿using BloodMuAPI.Extensions;
+﻿using BloodMuAPI.DataModel.Data;
+using BloodMuAPI.Extensions;
+using BloodMuAPI.Services.API;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloodMuAPI.Controllers
@@ -9,10 +11,28 @@ namespace BloodMuAPI.Controllers
     {
         [Route("get")]
         [HttpGet]
-        [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Get([FromHeader] string sessionId,string nameCharacter)
+        public IActionResult Get([FromServices] ICharacterService service, string nameCharacter)
         {
-            return Ok();
+            var row = service.GeCharacter(nameCharacter);
+            return Json(new 
+            {
+                Name = row.Name,
+                Class = row.CharacterClass?.Name,
+                CurrentMap =  row.CurrentMap?.Name,
+                X = row.PositionX,
+                Y = row.PositionY,
+                Exp = row.Experience,
+                LVL = row.Attributes.First(x => x.Definition.Designation == "Level")?.Value,
+                Reset = row.Attributes.First(x => x.Definition.Designation == "Resets")?.Value
+            });
+        }
+        
+        [Route("ranking/resets")]
+        [HttpGet]
+        public IActionResult GetRankingReset([FromServices] ICharacterService service)
+        {
+            var rows = service.GeResets();
+            return Ok(rows);
         }
 
         [Route("getByAccountName")]

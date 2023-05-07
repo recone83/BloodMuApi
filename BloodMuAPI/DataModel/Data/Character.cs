@@ -149,8 +149,9 @@ public class Character : Entity
     /// <summary>
     /// Gets or sets the current game map.
     /// </summary>
-    //[Required]
-    //public virtual GameMapDefinition? CurrentMap { get; set; }
+    [Required]
+    [ForeignKey("CurrentMapId")]
+    public virtual GameMapDefinition? CurrentMap { get; set; }
 
     /// <summary>
     /// Gets or sets the x-coordinate of its map position.

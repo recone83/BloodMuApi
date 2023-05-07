@@ -23,6 +23,7 @@ namespace BloodMuAPI
             }, ServiceLifetime.Singleton);
 
             services.AddSingleton<IAccountService, AccountService>();
+            services.AddSingleton<ICharacterService, CharacterService>();
             services.AddSingleton<ISessionManager, SessionManager>();
 
             services.AddScoped<AuthSessionHandler>();

@@ -1,4 +1,6 @@
-﻿using BloodMuAPI.Extensions;
+﻿using BloodMuAPI.DataModel.Data;
+using BloodMuAPI.Extensions;
+using BloodMuAPI.Services;
 using BloodMuAPI.Services.API;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,11 +31,9 @@ namespace BloodMuAPI.Controllers
 
         [Route("add")]
         [HttpPost]
-        [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Add([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
+        public IActionResult Add([FromServices] IAccountService service, AccountPost payload)
         {
-
-            return Ok();
+            return Ok(service.AddAccount(payload));
         }
     }
 }
