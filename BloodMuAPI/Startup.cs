@@ -38,29 +38,28 @@ namespace BloodMuAPI
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c=>
-            {
-                //c.EnableAnnotations();
-                //c.OperationFilter<CustomHeaderSwaggerAttribute>();
-            });
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                    app.UseCors(x => x.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .SetIsOriginAllowed(origin => true) 
+                        .AllowCredentials());
+                }
 
             app.UseRouting();
             app.UseSession();
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+                {
+                    endpoints.MapControllers();
+                });
         }
     }
 }

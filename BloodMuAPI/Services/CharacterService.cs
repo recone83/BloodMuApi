@@ -10,11 +10,6 @@ namespace BloodMuAPI.Services
         public string Name { get; set; }
         public string Class { get; set; }
         public float Resets { get; set; }
-        public float LVL { get; set; }
-        public long Exp { get; set; }
-        public string Map { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
     }
 
     public class CharacterService : ICharacterService
@@ -45,7 +40,6 @@ namespace BloodMuAPI.Services
         public List<SimpleCharacter> GeResets(int list = 10)
         {
              var ch = _db.Characters?
-            .Include(c => c.CurrentMap)
             .Include(c => c.CharacterClass)
             .Include(c => c.Attributes)
                 .ThenInclude(c => c.Definition)
@@ -53,12 +47,7 @@ namespace BloodMuAPI.Services
                 {
                     Name = x.Name,
                     Class = x.CharacterClass.Name,
-                    Map = x.CurrentMap.Name,
-                    Exp = x.Experience,
-                    Resets = x.Attributes.Where(s => s.Definition.Designation == "Resets").First().Value,
-                    LVL = x.Attributes.Where(s => s.Definition.Designation == "Level").First().Value,
-                    X = x.PositionX,
-                    Y = x.PositionY
+                    Resets = x.Attributes.Where(s => s.Definition.Designation == "Resets").First().Value
                 })
             .Where(x => x.Resets > 0)
             .OrderByDescending(x => x.Resets)
