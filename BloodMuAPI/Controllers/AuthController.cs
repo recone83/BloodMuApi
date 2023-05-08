@@ -3,9 +3,7 @@ using BloodMuAPI.DataModel.Data;
 using BloodMuAPI.Extensions;
 using BloodMuAPI.Services.API;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
 
 namespace BloodMuAPI.Controllers
 {
