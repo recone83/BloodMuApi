@@ -5,6 +5,7 @@ using BloodMuAPI.Services.API;
 using BloodMuAPI.Services;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace BloodMuAPI
 {
@@ -41,16 +42,24 @@ namespace BloodMuAPI
             services.AddSwaggerGen();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
         {
-            if (env.IsDevelopment())
-                {
+            if (env.IsDevelopment()) {
                     app.UseSwagger();
                     app.UseSwaggerUI();
                     app.UseCors(x => x.AllowAnyMethod()
                         .AllowAnyHeader()
                         .SetIsOriginAllowed(origin => true) 
                         .AllowCredentials());
+                } else {
+                    if (!String.IsNullOrEmpty(config["AllowedOrigins"])) {
+                        var origins = config["AllowedOrigins"].Split(";");
+                        app.UseCors(x => x
+                            .WithOrigins(origins)
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .AllowAnyHeader());
+                    }
                 }
 
             app.UseRouting();
