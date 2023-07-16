@@ -4,6 +4,7 @@ using BloodMuAPI.DataProvider;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Services.API;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace BloodMuAPI.Services
 {
@@ -79,8 +80,7 @@ namespace BloodMuAPI.Services
                 IsVaultExtended = false
 
             };
-
-            _db.Add(account);
+            _db.Accounts.Add(account);
 
             return _db.SaveChanges() == 1;
         }
