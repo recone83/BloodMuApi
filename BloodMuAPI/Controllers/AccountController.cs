@@ -1,6 +1,5 @@
 ﻿using BloodMuAPI.DataModel.Data;
 using BloodMuAPI.Extensions;
-using BloodMuAPI.Services;
 using BloodMuAPI.Services.API;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +32,10 @@ namespace BloodMuAPI.Controllers
         [HttpPost]
         public IActionResult Add([FromServices] IAccountService service, AccountPost payload)
         {
-            return Ok(service.AddAccount(payload));
+            if (service.AddAccount(payload))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }
