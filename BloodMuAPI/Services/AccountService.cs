@@ -4,7 +4,7 @@ using BloodMuAPI.DataProvider;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Services.API;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
+using Microsoft.Extensions.Logging;
 
 namespace BloodMuAPI.Services
 {
@@ -65,25 +65,36 @@ namespace BloodMuAPI.Services
 
         public bool AddAccount(AccountPost payload)
         {
+            var response = false;
             var account = new Account()
             {
                 EMail = payload.EMail,
                 LoginName = payload.LoginName,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(payload.Password),
                 Vault = new ItemStorage()
-                    {
-                        Money = 5000
-                    },
+                {
+                    Money = 5000
+                },
                 State = 0,
                 SecurityCode = "1234",
-                VaultPassword="",
+                VaultPassword = "",
                 IsVaultExtended = false
             };
 
-            _db.Accounts.Add(account);
-            var response = _db.SaveChanges() == 1;
-            _db.ChangeTracker.AcceptAllChanges();
-
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    _db.Accounts?.Add(account);
+                    response = _db.SaveChanges() == 1;
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    _logger.LogError(ex.Message);
+                }
+            }
             return response;
         }
 
