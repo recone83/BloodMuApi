@@ -90,6 +90,7 @@ namespace BloodMuAPI.Services
                     return true;
                 } catch (Exception ex) {
                     transaction.Rollback();
+                    _db.ChangeTracker.Clear();
                     _logger.LogError(ex.Message);
                 }
             }
