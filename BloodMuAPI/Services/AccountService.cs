@@ -71,22 +71,25 @@ namespace BloodMuAPI.Services
                 LoginName = payload.LoginName,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(payload.Password),
                 Vault = new ItemStorage()
-                {
-                    Money = 5000
-                },
+                    {
+                        Money = 5000
+                    },
                 State = 0,
                 SecurityCode = "1234",
                 VaultPassword="",
                 IsVaultExtended = false
-
             };
-            _db.Accounts.Add(account);
 
-            return _db.SaveChanges() == 1;
+            _db.Accounts.Add(account);
+            var response = _db.SaveChanges() == 1;
+            _db.ChangeTracker.AcceptAllChanges();
+
+            return response;
         }
 
         public void test()
-        {/*
+        {
+            /*
             _db.Accounts
             .FromSql(" SELECT ch.Name, "
             + " st.Value as Level,  st1.Value as Reset "
@@ -94,7 +97,8 @@ namespace BloodMuAPI.Services
             + " JOIN [StatAttribute] st WITH ch.Id = st.CharacterId AND st.DefinitionId = (SELECT ad1.Id FROM [AttributeDefinition] ad1 WHERE ad1.Id = st.DefinitionId AND ad1.Designation LIKE 'Level')"
             + " JOIN [StatAttribute] st1 WITH ch.Id = st1.CharacterId AND st1.DefinitionId = (SELECT ad2.Id FROM [AttributeDefinition] ad2 WHERE ad2.Id = st1.DefinitionId AND ad2.Designation LIKE 'Resets')"
             + " ORDER BY st.Value+st1.Value*1000 DESC")
-            .ToList();*/
+            .ToList();
+            */
         }
     }
 }
