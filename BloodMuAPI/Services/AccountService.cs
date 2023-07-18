@@ -65,7 +65,6 @@ namespace BloodMuAPI.Services
 
         public bool AddAccount(AccountPost payload)
         {
-            var response = false;
             var account = new Account()
             {
                 EMail = payload.EMail,
@@ -86,16 +85,16 @@ namespace BloodMuAPI.Services
                 try
                 {
                     _db.Accounts?.Add(account);
-                    response = _db.SaveChanges() == 1;
+                    _db.SaveChanges();
                     transaction.Commit();
-                }
-                catch (Exception ex)
-                {
+                    return true;
+                } catch (Exception ex) {
                     transaction.Rollback();
                     _logger.LogError(ex.Message);
                 }
             }
-            return response;
+
+            return true;
         }
 
         public void test()
