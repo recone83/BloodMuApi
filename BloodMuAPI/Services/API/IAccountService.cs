@@ -4,9 +4,9 @@ namespace BloodMuAPI.Services.API
 {
     public interface IAccountService
     {
-        public Account GetUsers();
-        public Account? GetUser(string username, string password);
-        public Account? GetUser(string username);
-        public bool AddAccount(AccountPost payload);
+        public Task<Account> GetUsers();
+        public Task<Account?> GetUser(string username, string password);
+        public Task<Account?> GetUser(string username);
+        public Task<bool> AddAccount(AccountPost payload);
     }
 }

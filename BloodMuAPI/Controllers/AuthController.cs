@@ -31,9 +31,9 @@ namespace BloodMuAPI.Controllers
 
         [Route("login")]
         [HttpPost]
-        public IActionResult Login([Required] string username, [Required] string password)
+        public async Task<IActionResult> Login([Required] string username, [Required] string password)
         {
-            var account = _db.GetUser(username, password);
+            var account = await _db.GetUser(username, password);
             if (account is not null)
             {
                 var sessionId = Guid.NewGuid().ToString();

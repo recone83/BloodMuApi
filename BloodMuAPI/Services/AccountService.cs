@@ -4,7 +4,6 @@ using BloodMuAPI.DataProvider;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Services.API;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace BloodMuAPI.Services
 {
@@ -18,7 +17,7 @@ namespace BloodMuAPI.Services
             _logger = logger;
         }
 
-        public Account GetUsers()
+        public async Task<Account> GetUsers()
         {
             var x = _db.Accounts
              .Include(c => c.Characters)
@@ -29,18 +28,17 @@ namespace BloodMuAPI.Services
                  .ThenInclude(c => c.Attributes)
                      .ThenInclude(c => c.Definition)
              .Include(c => c.Characters)
-                 .ThenInclude(c => c.CharacterClass)
-             .First();
-
-            return x;
+                 .ThenInclude(c => c.CharacterClass);
+             
+            return await x.FirstAsync(); ;
         }
 
-        public Account? GetUser(string username, string password)
+        public async Task<Account?> GetUser(string username, string password)
         {
-            var account = _db.Accounts
+            var account = await _db.Accounts
                 .Where(x => x.LoginName == username)
                 .Include(c => c.Characters)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
             if(account is not null && BCrypt.Net.BCrypt.Verify(password, account.PasswordHash))
             {
@@ -50,20 +48,20 @@ namespace BloodMuAPI.Services
             return null;
         }
 
-        public Account? GetUser(string username)
+        public async Task<Account?> GetUser(string username)
         {
-            var account = _db.Accounts
+            var account = await _db.Accounts
                 .Where(x => x.LoginName == username)
                 .Include(c => c.Characters)
                     .ThenInclude(c => c.Inventory)
                 .Include(c => c.Characters)
                     .ThenInclude(c => c.CharacterClass)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
             return account;
         }
 
-        public bool AddAccount(AccountPost payload)
+        public async Task<bool> AddAccount(AccountPost payload)
         {
             var account = new Account()
             {
@@ -85,7 +83,7 @@ namespace BloodMuAPI.Services
                 try
                 {
                     _db.Accounts?.Add(account);
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
                     transaction.Commit();
                     return true;
                 } catch (Exception ex) {

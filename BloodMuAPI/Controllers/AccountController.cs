@@ -32,7 +32,7 @@ namespace BloodMuAPI.Controllers
         [HttpPost]
         public IActionResult Add([FromServices] IAccountService service, AccountPost payload)
         {
-            if (service.AddAccount(payload))
+            if (service.AddAccount(payload).Result)
                 return Ok();
             else
                 return BadRequest();
