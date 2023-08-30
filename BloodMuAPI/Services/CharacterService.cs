@@ -31,9 +31,9 @@ namespace BloodMuAPI.Services
     {
         private BloodMuDbContext _db { get; set; }
         private ILogger<ICharacterService> _logger { get; set; }
-        public CharacterService(IBloodMuDbContext db, ILogger<ICharacterService> logger)
+        public CharacterService(IDbContextFactory<BloodMuDbContext> factory,IBloodMuDbContext db, ILogger<ICharacterService> logger)
         {
-            _db = (BloodMuDbContext)db;
+            _db = factory.CreateDbContextAsync().Result;
             _logger = logger;
         }
 
