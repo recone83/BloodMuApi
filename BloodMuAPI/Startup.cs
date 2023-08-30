@@ -5,7 +5,6 @@ using BloodMuAPI.Services.API;
 using BloodMuAPI.Services;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace BloodMuAPI
 {
@@ -27,10 +26,10 @@ namespace BloodMuAPI
             config.UseNpgsql(Configuration.GetConnectionString("BloodMuDbConnection"));
             }, ServiceLifetime.Scoped);
 
-            services.AddSingleton<IAccountService, AccountService>();
-            services.AddSingleton<ICharacterService, CharacterService>();
-            services.AddSingleton<ISessionManager, SessionManager>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ICharacterService, CharacterService>();
 
+            services.AddSingleton<ISessionManager, SessionManager>();
             services.AddScoped<AuthSessionHandler>();
 
             services.AddDistributedMemoryCache();
