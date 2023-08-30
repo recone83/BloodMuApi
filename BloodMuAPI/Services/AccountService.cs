@@ -14,9 +14,9 @@ namespace BloodMuAPI.Services
     {
         private BloodMuDbContext _db { get; set; }
         private ILogger<IAccountService> _logger { get; set; }
-        public AccountService(IBloodMuDbContext db, ILogger<IAccountService> logger)
+        public AccountService(IDbContextFactory<BloodMuDbContext> factory, ILogger<IAccountService> logger)
         {
-            _db = (BloodMuDbContext)db;
+            _db = factory.CreateDbContext();
             _logger = logger;
         }
 
