@@ -20,19 +20,19 @@ namespace BloodMuAPI.Controllers
         [Route("get")]
         [HttpGet]
         [ServiceFilter(typeof(AuthSessionHandler))]
-        public IActionResult Get([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
+        public async Task<IActionResult> Get([FromHeader] string sessionId, [FromServices] ISessionManager sessionManager)
         {
             var user = sessionManager.GetSessionUser();
-            var account = _accountService.GetUser(user.LoginName);
+            var account = await _accountService.GetUser(user.LoginName);
 
             return Ok(account);
         }
 
         [Route("add")]
         [HttpPost]
-        public IActionResult Add([FromServices] IAccountService service, AccountPost payload)
+        public async Task<IActionResult> Add([FromServices] IAccountService service, AccountPost payload)
         {
-            if (service.AddAccount(payload).Result)
+            if (await service.AddAccount(payload))
                 return Ok();
             else
                 return BadRequest();

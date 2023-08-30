@@ -11,10 +11,10 @@ namespace BloodMuAPI.Controllers
     {
         [Route("get")]
         [HttpGet]
-        public IActionResult Get([FromServices] ICharacterService service, string nameCharacter)
+        public async Task<IActionResult> Get([FromServices] ICharacterService service, string nameCharacter)
         {
-            var row = service.GeCharacter(nameCharacter);
-            return Json(new 
+            var row = await service.GeCharacter(nameCharacter);
+            return Json(new
             {
                 Name = row.Name,
                 Class = row.CharacterClass?.Name,
@@ -26,12 +26,12 @@ namespace BloodMuAPI.Controllers
                 Reset = row.Attributes.First(x => x.Definition.Designation == "Resets")?.Value
             });
         }
-        
+
         [Route("ranking/resets")]
         [HttpGet]
-        public IActionResult GetRankingReset([FromServices] ICharacterService service)
+        public async Task<IActionResult> GetRankingReset([FromServices] ICharacterService service)
         {
-            var rows = service.GeResets();
+            var rows = await service.GeResets()!;
             return Ok(rows);
         }
 
