@@ -5,13 +5,28 @@ using BloodMuAPI.DataModel.Data;
 using Microsoft.EntityFrameworkCore;
 namespace BloodMuAPI.Services
 {
+    /// <summary>
+    /// SimpleCharacter
+    /// </summary>
     public class SimpleCharacter
     {
+        /// <summary>
+        /// Character name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Class name
+        /// </summary>
         public string Class { get; set; }
+        /// <summary>
+        /// number of resets
+        /// </summary>
         public float Resets { get; set; }
     }
 
+    /// <summary>
+    /// CharacterService
+    /// </summary>
     public class CharacterService : ICharacterService
     {
         private BloodMuDbContext _db { get; set; }
@@ -22,7 +37,12 @@ namespace BloodMuAPI.Services
             _logger = logger;
         }
 
-        public Character? GeCharacter(string name)
+        /// <summary>
+        /// Get character by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Task<Character?> GeCharacter(string name)
         {
             var ch = _db.Characters?
                 .Include(c => c.CurrentMap)
@@ -33,11 +53,17 @@ namespace BloodMuAPI.Services
                 )
                     .ThenInclude(c => c.Definition)
                 .Where<Character>(x => x.Name == name)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
             return ch;
         }
-        public List<SimpleCharacter> GeResets(int list = 10)
+
+        /// <summary>
+        /// Get resets list
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public Task<List<SimpleCharacter>?>? GeResets(int list = 10)
         {
              var ch = _db.Characters?
             .Include(c => c.CharacterClass)
@@ -52,7 +78,7 @@ namespace BloodMuAPI.Services
             .Where(x => x.Resets > 0)
             .OrderByDescending(x => x.Resets)
             .Take(list)
-            .ToList();
+            .ToListAsync();
 
             return ch;
         }

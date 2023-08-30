@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BloodMuAPI.Services
 {
+    /// <summary>
+    /// AccountService
+    /// </summary>
     public class AccountService : IAccountService
     {
         private BloodMuDbContext _db { get; set; }
@@ -17,6 +20,10 @@ namespace BloodMuAPI.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get Users
+        /// </summary>
+        /// <returns></returns>
         public async Task<Account> GetUsers()
         {
             var x = _db.Accounts
@@ -29,10 +36,16 @@ namespace BloodMuAPI.Services
                      .ThenInclude(c => c.Definition)
              .Include(c => c.Characters)
                  .ThenInclude(c => c.CharacterClass);
-             
+
             return await x.FirstAsync(); ;
         }
 
+        /// <summary>
+        /// Get specyfic user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<Account?> GetUser(string username, string password)
         {
             var account = await _db.Accounts
@@ -48,6 +61,11 @@ namespace BloodMuAPI.Services
             return null;
         }
 
+        /// <summary>
+        /// Get user by name
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<Account?> GetUser(string username)
         {
             var account = await _db.Accounts
@@ -61,6 +79,11 @@ namespace BloodMuAPI.Services
             return account;
         }
 
+        /// <summary>
+        /// Add account
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         public async Task<bool> AddAccount(AccountPost payload)
         {
             var account = new Account()
@@ -84,7 +107,7 @@ namespace BloodMuAPI.Services
                 {
                     _db.Accounts?.Add(account);
                     await _db.SaveChangesAsync();
-                    transaction.Commit();
+                    await transaction.CommitAsync();
                     return true;
                 } catch (Exception ex) {
                     transaction.Rollback();
@@ -94,20 +117,6 @@ namespace BloodMuAPI.Services
             }
 
             return false;
-        }
-
-        public void test()
-        {
-            /*
-            _db.Accounts
-            .FromSql(" SELECT ch.Name, "
-            + " st.Value as Level,  st1.Value as Reset "
-            + " FROM [Character] ch "
-            + " JOIN [StatAttribute] st WITH ch.Id = st.CharacterId AND st.DefinitionId = (SELECT ad1.Id FROM [AttributeDefinition] ad1 WHERE ad1.Id = st.DefinitionId AND ad1.Designation LIKE 'Level')"
-            + " JOIN [StatAttribute] st1 WITH ch.Id = st1.CharacterId AND st1.DefinitionId = (SELECT ad2.Id FROM [AttributeDefinition] ad2 WHERE ad2.Id = st1.DefinitionId AND ad2.Designation LIKE 'Resets')"
-            + " ORDER BY st.Value+st1.Value*1000 DESC")
-            .ToList();
-            */
         }
     }
 }
