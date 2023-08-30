@@ -4,3 +4,10 @@
 bin
 obj
 /BloodMuAPI/appsettings - kopiować.json
+/.idea/.idea.BloodMuAPI/.idea/sonarlint
+/.idea/.idea.BloodMuAPI/.idea/.gitignore
+/.idea/.idea.BloodMuAPI/.idea/.name
+/.idea/.idea.BloodMuAPI/.idea/encodings.xml
+/.idea/.idea.BloodMuAPI/.idea/indexLayout.xml
+/.idea/.idea.BloodMuAPI/.idea/markdown.xml
+/.idea/.idea.BloodMuAPI/.idea/vcs.xml
