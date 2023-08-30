@@ -21,7 +21,11 @@ namespace BloodMuAPI
             services.AddDbContext<IBloodMuDbContext, BloodMuDbContext>(config =>
             {
                 config.UseNpgsql(Configuration.GetConnectionString("BloodMuDbConnection"));
-            }, ServiceLifetime.Singleton);
+            }, ServiceLifetime.Scoped);
+            services.AddDbContextFactory<BloodMuDbContext>(config =>
+            {
+            config.UseNpgsql(Configuration.GetConnectionString("BloodMuDbConnection"));
+            }, ServiceLifetime.Scoped);
 
             services.AddSingleton<IAccountService, AccountService>();
             services.AddSingleton<ICharacterService, CharacterService>();
