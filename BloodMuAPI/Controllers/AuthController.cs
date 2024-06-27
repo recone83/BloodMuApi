@@ -7,14 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BloodMuAPI.Controllers
 {
-
-    public class ServerStatusModel
-    {
-        public string state { get; set; }
-        public int players { get; set; }
-        public List<string> playersList { get; set; }
-    }
-
     [ApiController]
     [Route("v1/auth")]
     public class AuthController : Controller
@@ -50,14 +42,20 @@ namespace BloodMuAPI.Controllers
         /// <returns></returns>
         [Route("status")]
         [HttpGet]
-        public async Task<IActionResult> GetStatus()
+        public async Task<IActionResult> GetStatus([FromServices] ICharacterService service)
         {
             HttpClient httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(_config["OpenMuAdminPanel"]);
 
             var response = await httpClient.GetAsync("/api/status");
             response.EnsureSuccessStatusCode();
-            return Json(response.Content.ReadFromJsonAsync<ServerStatusModel>().Result);
+
+            var status = response.Content.ReadFromJsonAsync<SystemStats>().Result;
+            var statsFromDb = await service.GetStats();
+            status.Accounts = statsFromDb.Accounts;
+            status.Characters = statsFromDb.Characters;
+
+            return Json(status);
         }
     }
 }

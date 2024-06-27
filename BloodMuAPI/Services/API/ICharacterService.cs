@@ -6,5 +6,6 @@ namespace BloodMuAPI.Services.API
     {
         public Task<Character?>? GeCharacter(string name);
         public Task<List<SimpleCharacter>>? GeResets(int list = 10);
+        public Task<SystemStats> GetStats();
     }
 }

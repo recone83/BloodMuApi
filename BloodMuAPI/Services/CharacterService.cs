@@ -59,6 +59,19 @@ namespace BloodMuAPI.Services
         }
 
         /// <summary>
+        /// Collect server stats
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SystemStats> GetStats()
+        {
+            var stats = new SystemStats();
+            stats.Characters = await _db.Characters.CountAsync();
+            stats.Accounts = await _db.Accounts.CountAsync();
+
+            return stats;
+        }
+
+        /// <summary>
         /// Get resets list
         /// </summary>
         /// <param name="list"></param>
