@@ -1,5 +1,6 @@
 ﻿
 using BloodMuAPI.DataModel.Data;
+using BloodMuAPI.DataModel.Data.Accounts;
 using BloodMuAPI.DataProvider;
 using BloodMuAPI.DataProvider.API;
 using BloodMuAPI.Services.API;
@@ -96,7 +97,6 @@ namespace BloodMuAPI.Services
                     Money = 5000
                 },
                 State = 0,
-                SecurityCode = "1234",
                 VaultPassword = "",
                 IsVaultExtended = false
             };

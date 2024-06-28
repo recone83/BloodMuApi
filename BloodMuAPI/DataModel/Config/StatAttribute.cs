@@ -1,5 +1,4 @@
-﻿using BloodMuAPI.DataModel.Data;
-using System.ComponentModel.DataAnnotations;
+﻿using BloodMuAPI.DataModel.Data.Characters;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BloodMuAPI.DataModel.Config;

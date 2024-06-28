@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BloodMuAPI.DataModel.Data
+namespace BloodMuAPI.DataModel.Data.Accounts
 {
     public class AccountPost
     {

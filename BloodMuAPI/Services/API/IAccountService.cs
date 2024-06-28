@@ -1,4 +1,4 @@
-﻿using BloodMuAPI.DataModel.Data;
+﻿using BloodMuAPI.DataModel.Data.Accounts;
 
 namespace BloodMuAPI.Services.API
 {

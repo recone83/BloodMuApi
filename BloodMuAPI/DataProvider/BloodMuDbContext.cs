@@ -1,7 +1,8 @@
 ﻿namespace BloodMuAPI.DataProvider
 {
     using BloodMuAPI.DataModel.Config;
-    using BloodMuAPI.DataModel.Data;
+    using BloodMuAPI.DataModel.Data.Accounts;
+    using BloodMuAPI.DataModel.Data.Characters;
     using BloodMuAPI.DataProvider.API;
     using Microsoft.EntityFrameworkCore;
 

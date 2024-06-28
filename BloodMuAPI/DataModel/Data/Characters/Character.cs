@@ -2,10 +2,11 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace BloodMuAPI.DataModel.Data;
+namespace BloodMuAPI.DataModel.Data.Characters;
 
 using BloodMuAPI.DataModel;
 using BloodMuAPI.DataModel.Config;
+using BloodMuAPI.DataModel.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

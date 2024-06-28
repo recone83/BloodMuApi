@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace BloodMuAPI.DataModel.Data;
+namespace BloodMuAPI.DataModel.Data.Accounts;
 
 public class AccountSession
 {

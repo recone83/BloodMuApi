@@ -14,17 +14,7 @@ namespace BloodMuAPI.Controllers
         public async Task<IActionResult> Get([FromServices] ICharacterService service, string nameCharacter)
         {
             var row = await service.GeCharacter(nameCharacter);
-            return Json(new
-            {
-                Name = row.Name,
-                Class = row.CharacterClass?.Name,
-                CurrentMap =  row.CurrentMap?.Name,
-                X = row.PositionX,
-                Y = row.PositionY,
-                Exp = row.Experience,
-                LVL = row.Attributes.First(x => x.Definition.Designation == "Level")?.Value,
-                Reset = row.Attributes.First(x => x.Definition.Designation == "Resets")?.Value
-            });
+            return Json(row);
         }
 
         [Route("ranking/resets")]
@@ -34,6 +24,15 @@ namespace BloodMuAPI.Controllers
             var rows = await service.GeResets()!;
             return Ok(rows);
         }
+        
+        [Route("ranking/all")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromServices] ICharacterService service)
+        {
+            var rows = await service.GeAll();
+            return Ok(rows);
+        }
+
 
         [Route("getByAccountName")]
         [HttpGet]

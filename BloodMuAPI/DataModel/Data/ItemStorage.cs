@@ -4,29 +4,28 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BloodMuAPI.DataModel.Data
+namespace BloodMuAPI.DataModel.Data;
+
+/// <summary>
+/// A storage where items can be stored.
+/// </summary>
+[Table("ItemStorage", Schema = "data")]
+public class ItemStorage : Entity
 {
     /// <summary>
-    /// A storage where items can be stored.
+    /// Gets or sets the items which are stored.
     /// </summary>
-    [Table("ItemStorage", Schema = "data")]
-    public class ItemStorage : Entity
+    ///[MemberOfAggregate]
+    public virtual ICollection<Item> Items { get; protected set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the money which is stored.
+    /// </summary>
+    public int Money { get; set; }
+
+    /// <inheritdoc />
+    public override string ToString()
     {
-        /// <summary>
-        /// Gets or sets the items which are stored.
-        /// </summary>
-        ///[MemberOfAggregate]
-        public virtual ICollection<Item> Items { get; protected set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the money which is stored.
-        /// </summary>
-        public int Money { get; set; }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{Items?.Count ?? 0} Items, {Money} Money";
-        }
+        return $"{Items?.Count ?? 0} Items, {Money} Money";
     }
 }

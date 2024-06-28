@@ -1,4 +1,4 @@
-﻿using BloodMuAPI.DataModel.Data;
+﻿using BloodMuAPI.DataModel.Data.Accounts;
 using BloodMuAPI.Services.API;
 
 public class SessionManager : ISessionManager
