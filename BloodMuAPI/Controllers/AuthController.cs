@@ -24,9 +24,9 @@ namespace BloodMuAPI.Controllers
 
         [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> Login([Required] string username, [Required] string password)
+        public async Task<IActionResult> Login([Required] Login data)
         {
-            var account = await _db.GetUser(username, password);
+            var account = await _db.GetUser(data);
             if (account is not null)
             {
                 var sessionId = Guid.NewGuid().ToString();
@@ -34,7 +34,7 @@ namespace BloodMuAPI.Controllers
 
                 return Ok(sessionId);
             }
-            return Ok(null);
+            return StatusCode(401);
         }
 
         /// <summary>

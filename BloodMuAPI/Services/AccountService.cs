@@ -47,14 +47,14 @@ namespace BloodMuAPI.Services
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<Account?> GetUser(string username, string password)
+        public async Task<Account?> GetUser(Login data)
         {
             var account = await _db.Accounts
-                .Where(x => x.LoginName == username)
+                .Where(x => x.LoginName == data.Username)
                 .Include(c => c.Characters)
                 .SingleOrDefaultAsync();
 
-            if(account is not null && BCrypt.Net.BCrypt.Verify(password, account.PasswordHash))
+            if(account is not null && BCrypt.Net.BCrypt.Verify(data.Password, account.PasswordHash))
             {
                 return account;
             }
