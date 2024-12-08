@@ -89,9 +89,13 @@ namespace BloodMuAPI.Controllers
             var numberOfLines = 50; 
             Queue<string> linesQueue = new Queue<string>(numberOfLines);
 
+            Console.WriteLine("Start");
+            Console.WriteLine("Start :"+ _config["ChatTextFile"]);
+            var lastLines = ReadLastLines(_config["ChatTextFile"], 50)
 
-            var lastLines = ReadLastLines(_config["ChatTextFile"], 50);
-            return View(lastLines);
+            Console.WriteLine("Start :" + lastLines.ToString());
+
+            return View(lastLines.ToString());
         }
     }
 }
