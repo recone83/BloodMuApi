@@ -80,13 +80,11 @@ namespace BloodMuAPI.Controllers
         public async Task<IActionResult> GetGlobalChatLog([FromServices] ICharacterService service)
         {
             var numberOfLines = 50; 
-            Queue<string> linesQueue = new Queue<string>(numberOfLines);
 
             _logger.LogError("Start");
             _logger.LogError("Start :" + _config["ChatTextFile"]);
    
-            var lastLines = ReadLastLines(_config["ChatTextFile"], 50);
-
+            var lastLines = ReadLastLines(_config["ChatTextFile"], numberOfLines);
             _logger.LogError("end :" + lastLines);
 
             return View(lastLines.ToString());
