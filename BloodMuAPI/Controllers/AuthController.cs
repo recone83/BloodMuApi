@@ -58,5 +58,40 @@ namespace BloodMuAPI.Controllers
 
             return Json(status);
         }
+
+        private IEnumerable<string> ReadLastLines(string filePath, int numberOfLines)
+        {
+            Queue<string> lines = new Queue<string>(numberOfLines);
+            if (System.IO.File.Exists(filePath))
+            {
+                foreach (var line in System.IO.File.ReadLines(filePath))
+                {
+                    if (lines.Count == numberOfLines)
+                    {
+                        lines.Dequeue();
+                    }
+
+                    lines.Enqueue(line);
+                }
+            }
+            return lines;
+        }
+
+        /// <summary>
+        /// Read chat logs
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        [Route("chat/log")]
+        [HttpGet]
+        public async Task<IActionResult> GetGlobalChatLog([FromServices] ICharacterService service)
+        {
+            var numberOfLines = 50; 
+            Queue<string> linesQueue = new Queue<string>(numberOfLines);
+
+
+            var lastLines = ReadLastLines(_config["ChatTextFile"], 50);
+            return View(lastLines);
+        }
     }
 }
