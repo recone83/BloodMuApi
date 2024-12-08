@@ -61,14 +61,20 @@ namespace BloodMuAPI.Controllers
 
         private IEnumerable<string>? ReadLastLines(string filePath, int numberOfLines)
         {
-            IEnumerable<string> line;
+            Queue<string> lines = new Queue<string>(numberOfLines);
             if (System.IO.File.Exists(filePath))
             {
-                _logger.LogError("Istnieje....");
-                return System.IO.File.ReadLines(filePath).ToList();
+                foreach (var line in System.IO.File.ReadLines(filePath))
+                {
+                    if (lines.Count == numberOfLines)
+                    {
+                        lines.Dequeue();
+                    }
+                    lines.Enqueue(line);
+                }
             }
-            _logger.LogError("nie istnieje");
-            return null;
+
+            return lines;
         }
 
         /// <summary>
@@ -80,14 +86,8 @@ namespace BloodMuAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGlobalChatLog([FromServices] ICharacterService service)
         {
-            var numberOfLines = 50; 
-
-            _logger.LogError("Start");
-            _logger.LogError("Start :" + _config["ChatTextFile"]);
-   
+            var numberOfLines = 50;
             var lastLines = ReadLastLines(_config["ChatTextFile"], numberOfLines);
-            _logger.LogError("end :" + string.Concat(lastLines));
-            // string.Concat(lastLines)
             return Content(string.Concat(lastLines));
         }
     }
