@@ -91,7 +91,7 @@ namespace BloodMuAPI.Controllers
 
             Console.WriteLine("Start");
             Console.WriteLine("Start :"+ _config["ChatTextFile"]);
-            var lastLines = ReadLastLines(_config["ChatTextFile"], 50)
+            var lastLines = ReadLastLines(_config["ChatTextFile"], 50);
 
             Console.WriteLine("Start :" + lastLines.ToString());
 
