@@ -86,9 +86,9 @@ namespace BloodMuAPI.Controllers
             _logger.LogError("Start :" + _config["ChatTextFile"]);
    
             var lastLines = ReadLastLines(_config["ChatTextFile"], numberOfLines);
-            _logger.LogError("end :" + lastLines.ToArray());
-
-            return View(string.Concat(lastLines));
+            _logger.LogError("end :" + string.Concat(lastLines));
+            // string.Concat(lastLines)
+            return View("sdfsdsdf");
         }
     }
 }
