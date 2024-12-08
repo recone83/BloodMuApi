@@ -64,9 +64,10 @@ namespace BloodMuAPI.Controllers
             IEnumerable<string> line;
             if (System.IO.File.Exists(filePath))
             {
-                return System.IO.File.ReadLines(filePath);
+                _logger.LogError("Istnieje....");
+                return System.IO.File.ReadLines(filePath).ToList();
             }
-
+            _logger.LogError("nie istnieje");
             return null;
         }
 
